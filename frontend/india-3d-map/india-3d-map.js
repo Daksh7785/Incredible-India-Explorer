@@ -297,8 +297,21 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
         if (!tooltipEl) return;
         tooltipEl.textContent = name;
         tooltipEl.style.opacity = "1";
-        tooltipEl.style.left = (evt.clientX + 14) + "px";
-        tooltipEl.style.top = (evt.clientY + 14) + "px";
+        
+        var rect = tooltipEl.getBoundingClientRect();
+        var offset = 14;
+        var left = evt.clientX + offset;
+        var top = evt.clientY + offset;
+        
+        if (left + rect.width > window.innerWidth) {
+            left = evt.clientX - rect.width - offset;
+        }
+        if (top + rect.height > window.innerHeight) {
+            top = evt.clientY - rect.height - offset;
+        }
+        
+        tooltipEl.style.left = left + "px";
+        tooltipEl.style.top = top + "px";
     }
     function hideStateTooltip() {
         if (tooltipEl) tooltipEl.style.opacity = "0";
